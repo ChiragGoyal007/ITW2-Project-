@@ -1,0 +1,59 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %} Library {% endblock %}
+
+{% block css %}
+<style>
+    .library-container {
+        padding: 20px;
+        background-color: #f5f5f5;
+    }
+
+    .song {
+        background-color: #fff;
+        padding: 15px;
+        margin: 10px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+    }
+
+    .song img {
+        width: 50px; /* Set the desired width for your song icons */
+        margin-right: 20px; /* Adjust the margin as needed */
+        float: left; /* Float the image to the left */
+    }
+
+    .song h2 {
+        font-size: 24px;
+        margin: 0;
+    }
+
+    .song .artist {
+        font-size: 16px;
+        margin-top: 10px; /* Add margin to the top to create space between song name and artist name */
+    }
+
+    .song p {
+        font-size: 16px;
+        margin: 5px 0; 
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="library-container">
+    {% if message %}
+        <div class="alert alert-info">{{ message }}</div>
+    {% endif %}
+
+    {% for i in lib %}
+        <div class="song">
+            <img src="/media/{{i.song_id.image}}" alt="Song Icon">
+            <h2>{{ i.song_id.song_name }}</h2>
+            <p>{{ i.song_id.artist }}</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

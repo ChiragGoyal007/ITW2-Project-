@@ -1,0 +1,66 @@
+{% extends 'shop/basic.html' %}
+{% block title %} Search {% endblock %}
+{% block body %}
+{% load static %}
+<div class="container">
+    <!-- Slideshow starts here -->
+    <h2>Search Results</h2>
+    <div class="row">
+        {% for i in obj %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="/media/{{i.image}}" class="card-img-top" alt="{{ i.song_name }}" style="max-height: 280px;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ i.song_name }}</h5>
+                    <p class="card-text">Artist: {{ i.artist }}</p>
+                    <p class="card-text">Price: ${{ i.price }}</p>
+                    <a onclick="window.location.pathname='add/{{i.pk}}'" class="btn btn-primary">Add to Library</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+  {% endblock %}
+ 
+{% block js %}
+<script>
+  console.log('working');
+
+  if (localStorage.getItem('Library') == null) {
+    var Library = {};
+  } else {
+    Library = JSON.parse(localStorage.getItem('Library'));
+  }
+
+  $('.Library').click(function () {
+    console.log('clicked');
+    var idstr = this.id.toString();
+    console.log(idstr);
+
+    // Assuming you have a data attribute 'song_name' in your HTML elements
+    var songName = $(this).data('song_name');
+
+    // Check if the song is already in the Library
+    if (Library[idstr]) {
+      console.log('Song is already in the Library');
+      // Handle the case where the user wants to remove the song from the Library
+      // For example: You can set the value to 0 to indicate removal
+      Library[idstr] = 0;
+    } else {
+      console.log('Adding song to the Library');
+      Library[idstr] = 1;
+      Library[idstr + '_name'] = songName;
+    }
+    
+    console.log(Library);
+
+    localStorage.setItem('Library', JSON.stringify(Library));
+  });
+</script>
+
+{% endblock %}
+
+
+
+
